@@ -1,0 +1,353 @@
+:root {
+    --primary: #ff4d6d;
+    --primary-light: #ff758c;
+    --secondary: #c9184a;
+    --bg-deep: #2F1C25;
+    --text-main: #590d22;
+    --glass: rgba(255, 255, 255, 0.85);
+    --glass-border: rgba(255, 255, 255, 0.9);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Mali', cursive;
+    height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(135deg, #FFF0F5 0%, #FFD1DC 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-main);
+}
+
+/* Background Canvas */
+#bgCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.main-container {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.screen {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.8s ease-in-out, transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.9);
+}
+
+/* --- Envelope Styles --- */
+.envelope-container {
+    cursor: pointer;
+    text-align: center;
+    transform: scale(1);
+    transition: transform 0.3s ease;
+}
+
+.envelope-container:hover {
+    transform: scale(1.1);
+}
+
+.envelope {
+    width: 300px;
+    height: 200px;
+    background: #FF8FA3;
+    position: relative;
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.envelope::after {
+    /* Left Right folds */
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 100px 150px 100px 150px;
+    border-color: transparent #FFB3C6 #FFB3C6 #FFB3C6;
+    border-radius: 0 0 10px 10px;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+.flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 120px 150px 0 150px;
+    border-color: #FF758F transparent transparent transparent;
+    transform-origin: top;
+    transition: transform 0.6s ease 0.2s, z-index 0.2s;
+    z-index: 5;
+}
+
+.envelope.open .flap {
+    transform: rotateX(180deg);
+    z-index: 1;
+}
+
+.heart-seal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 50px;
+    z-index: 10;
+    transition: transform 0.4s ease;
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.1));
+}
+
+.envelope:hover .heart-seal {
+    transform: translate(-50%, -50%) scale(1.2);
+}
+
+.click-hint {
+    margin-top: 40px;
+    color: #FF4D6D;
+    font-weight: bold;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+        opacity: 0.8;
+    }
+
+    50% {
+        transform: translateY(-10px);
+        opacity: 1;
+    }
+}
+
+/* --- Content Card Styles --- */
+.glass-card {
+    background: var(--glass);
+    backdrop-filter: blur(20px);
+    border: 2px solid var(--glass-border);
+    padding: 30px;
+    border-radius: 30px;
+    width: 100%;
+    max-width: 480px;
+    text-align: center;
+    box-shadow: 0 25px 50px -12px rgba(255, 77, 109, 0.25);
+    transform: translateY(20px);
+    opacity: 0;
+    animation: slideUp 1s ease forwards 0.5s;
+}
+
+@keyframes slideUp {
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.avatar {
+    font-size: 60px;
+    background: #FFF;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 25px rgba(255, 77, 109, 0.2);
+    border: 4px solid #FFE5EC;
+    animation: float 6s ease-in-out infinite;
+}
+
+h1 {
+    font-family: 'Charm', cursive;
+    color: var(--secondary);
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.message-box {
+    min-height: 120px;
+    font-size: 1.15rem;
+    line-height: 1.6;
+    color: #444;
+    margin-bottom: 30px;
+    text-align: center;
+    padding: 0 15px;
+}
+
+.cursor {
+    display: inline-block;
+    width: 2px;
+    background-color: var(--secondary);
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+.separator {
+    color: #FFB3C6;
+    margin: 20px 0;
+    letter-spacing: 5px;
+}
+
+/* --- Premium Gift Button --- */
+.premium-btn {
+    background: linear-gradient(45deg, #FF4D6D, #FF758C);
+    border: none;
+    padding: 16px 45px;
+    border-radius: 50px;
+    color: white;
+    font-family: 'Mali', cursive;
+    font-size: 1.3rem;
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 10px 25px rgba(255, 77, 109, 0.4);
+    display: inline-block;
+}
+
+.premium-btn .btn-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.premium-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: 0.5s;
+}
+
+.premium-btn:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 15px 35px rgba(255, 77, 109, 0.5);
+}
+
+.premium-btn:hover::before {
+    left: 100%;
+}
+
+.loading {
+    margin-top: 15px;
+    color: var(--primary);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+}
+
+.spinner {
+    width: 24px;
+    height: 24px;
+    border: 3px solid #FFD1DC;
+    border-top: 3px solid #FF4D6D;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Floating Hearts Container */
+.hearts-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.floating-heart {
+    position: absolute;
+    bottom: -50px;
+    font-size: 20px;
+    color: #ff4d6d;
+    animation: floatUp linear forwards;
+    opacity: 0;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) scale(0.5) rotate(0deg);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translateY(-110vh) scale(1.5) rotate(360deg);
+        opacity: 0;
+    }
+}
